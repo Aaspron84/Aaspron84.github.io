@@ -18,20 +18,35 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-top: 20px;
+            margin: 20px 0;
         }
-        .member {
-            border: 2px solid black;
-            padding: 10px;
+        .person {
             text-align: center;
-            width: 150px;
-            background-color: #f9f9f9;
+            cursor: pointer;
         }
-        .member img {
+        .person img {
             width: 100px;
             height: 100px;
-            object-fit: cover;
             border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid black;
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            width: 50%;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -39,59 +54,58 @@
     <h1>Árbol Genealógico</h1>
     <div class="tree">
         <div class="generation">
-            <div class="member">
-                <img id="img1" src="" alt="Foto" onclick="uploadImage('img1')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Antonio Aspron Pilar">
                 <p>Antonio Aspron Pilar</p>
             </div>
-            <div class="member">
-                <img id="img2" src="" alt="Foto" onclick="uploadImage('img2')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Emilia Pérez Campos">
                 <p>Emilia Pérez Campos</p>
             </div>
         </div>
         <div class="generation">
-            <div class="member">
-                <img id="img3" src="" alt="Foto" onclick="uploadImage('img3')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Antonio Aspron Pérez">
                 <p>Antonio Aspron Pérez</p>
             </div>
-            <div class="member">
-                <img id="img4" src="" alt="Foto" onclick="uploadImage('img4')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="David Aspron Pérez">
                 <p>David Aspron Pérez</p>
             </div>
-            <div class="member">
-                <img id="img5" src="" alt="Foto" onclick="uploadImage('img5')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Manuel Aspron Pérez">
                 <p>Manuel Aspron Pérez</p>
             </div>
-            <div class="member">
-                <img id="img6" src="" alt="Foto" onclick="uploadImage('img6')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Soledad Aspron Pérez">
                 <p>Soledad Aspron Pérez</p>
             </div>
-            <div class="member">
-                <img id="img7" src="" alt="Foto" onclick="uploadImage('img7')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Leopoldo Aspron Pérez">
                 <p>Leopoldo Aspron Pérez</p>
             </div>
-            <div class="member">
-                <img id="img8" src="" alt="Foto" onclick="uploadImage('img8')">
+            <div class="person" onclick="showImage(this)">
+                <img src="placeholder.jpg" alt="Pedro Aspron Pérez">
                 <p>Pedro Aspron Pérez</p>
             </div>
         </div>
     </div>
     
+    <!-- Modal para ver la imagen en grande -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="Foto grande">
+    </div>
+    
     <script>
-        function uploadImage(imgId) {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById(imgId).src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            };
-            input.click();
+        function showImage(element) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("modalImg");
+            modal.style.display = "flex";
+            modalImg.src = element.querySelector("img").src;
+        }
+        
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
         }
     </script>
 </body>
