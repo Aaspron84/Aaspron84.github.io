@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol Genealógico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .generation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .member {
+            border: 2px solid black;
+            padding: 10px;
+            text-align: center;
+            width: 150px;
+            background-color: #f9f9f9;
+        }
+        .member img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Árbol Genealógico</h1>
+    <div class="tree">
+        <div class="generation">
+            <div class="member">
+                <img id="img1" src="" alt="Foto" onclick="uploadImage('img1')">
+                <p>Antonio Aspron Pilar</p>
+            </div>
+            <div class="member">
+                <img id="img2" src="" alt="Foto" onclick="uploadImage('img2')">
+                <p>Emilia Pérez Campos</p>
+            </div>
+        </div>
+        <div class="generation">
+            <div class="member">
+                <img id="img3" src="" alt="Foto" onclick="uploadImage('img3')">
+                <p>Antonio Aspron Pérez</p>
+            </div>
+            <div class="member">
+                <img id="img4" src="" alt="Foto" onclick="uploadImage('img4')">
+                <p>David Aspron Pérez</p>
+            </div>
+            <div class="member">
+                <img id="img5" src="" alt="Foto" onclick="uploadImage('img5')">
+                <p>Manuel Aspron Pérez</p>
+            </div>
+            <div class="member">
+                <img id="img6" src="" alt="Foto" onclick="uploadImage('img6')">
+                <p>Soledad Aspron Pérez</p>
+            </div>
+            <div class="member">
+                <img id="img7" src="" alt="Foto" onclick="uploadImage('img7')">
+                <p>Leopoldo Aspron Pérez</p>
+            </div>
+            <div class="member">
+                <img id="img8" src="" alt="Foto" onclick="uploadImage('img8')">
+                <p>Pedro Aspron Pérez</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function uploadImage(imgId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById(imgId).src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+    </script>
+</body>
+</html>
