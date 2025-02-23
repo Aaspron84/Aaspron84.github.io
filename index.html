@@ -18,72 +18,97 @@
         .member {
             text-align: center;
             margin: 10px;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: #f9f9f9;
         }
         .member img {
             width: 100px;
             height: 100px;
-            border-radius: 50%;
             object-fit: cover;
+            display: block;
+            margin: 0 auto 10px;
             cursor: pointer;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal img {
-            max-width: 80%;
-            max-height: 80%;
         }
     </style>
 </head>
 <body>
+    <h1>Árbol Genealógico</h1>
     <div class="tree">
         <div class="generation">
             <div class="member">
-                <p>ANTONIO ASPRON PILAR</p>
-                <img src="placeholder.jpg" onclick="openModal(this)" id="img1">
-                <br>
-                <input type="file" accept="image/*" onchange="uploadImage(event, 'img1')">
-                <button onclick="openModal(document.getElementById('img1'))">Ver Imagen</button>
+                <img id="antonio" src="" alt="Antonio Aspron Pilar" onclick="verImagen('antonio')">
+                <p>Antonio Aspron Pilar</p>
+                <input type="file" onchange="subirImagen(event, 'antonio')">
             </div>
             <div class="member">
-                <p>EMILIA PEREZ CAMPOS</p>
-                <img src="placeholder.jpg" onclick="openModal(this)" id="img2">
-                <br>
-                <input type="file" accept="image/*" onchange="uploadImage(event, 'img2')">
-                <button onclick="openModal(document.getElementById('img2'))">Ver Imagen</button>
+                <img id="emilia" src="" alt="Emilia Perez Campos" onclick="verImagen('emilia')">
+                <p>Emilia Perez Campos</p>
+                <input type="file" onchange="subirImagen(event, 'emilia')">
+            </div>
+        </div>
+        <div class="generation">
+            <div class="member">
+                <img id="antonio_hijo" src="" alt="Antonio Aspron Perez" onclick="verImagen('antonio_hijo')">
+                <p>Antonio Aspron Perez</p>
+                <input type="file" onchange="subirImagen(event, 'antonio_hijo')">
+            </div>
+            <div class="member">
+                <img id="david" src="" alt="David Aspron Perez" onclick="verImagen('david')">
+                <p>David Aspron Perez</p>
+                <input type="file" onchange="subirImagen(event, 'david')">
+            </div>
+            <div class="member">
+                <img id="manuel" src="" alt="Manuel Aspron Perez" onclick="verImagen('manuel')">
+                <p>Manuel Aspron Perez</p>
+                <input type="file" onchange="subirImagen(event, 'manuel')">
+            </div>
+            <div class="member">
+                <img id="soledad" src="" alt="Soledad Aspron Perez" onclick="verImagen('soledad')">
+                <p>Soledad Aspron Perez</p>
+                <input type="file" onchange="subirImagen(event, 'soledad')">
+            </div>
+            <div class="member">
+                <img id="leopoldo" src="" alt="Leopoldo Aspron Perez" onclick="verImagen('leopoldo')">
+                <p>Leopoldo Aspron Perez</p>
+                <input type="file" onchange="subirImagen(event, 'leopoldo')">
+            </div>
+            <div class="member">
+                <img id="pedro" src="" alt="Pedro Aspron Perez" onclick="verImagen('pedro')">
+                <p>Pedro Aspron Perez</p>
+                <input type="file" onchange="subirImagen(event, 'pedro')">
             </div>
         </div>
     </div>
 
-    <div class="modal" id="imageModal" onclick="closeModal()">
-        <img id="modalImg">
-    </div>
-
     <script>
-        function openModal(imgElement) {
-            document.getElementById("modalImg").src = imgElement.src;
-            document.getElementById("imageModal").style.display = "flex";
-        }
-        function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
-        }
-        function uploadImage(event, imgId) {
+        function subirImagen(event, id) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById(imgId).src = e.target.result;
-                }
+                    localStorage.setItem(id, e.target.result);
+                    document.getElementById(id).src = e.target.result;
+                };
                 reader.readAsDataURL(file);
             }
+        }
+
+        function verImagen(id) {
+            const src = document.getElementById(id).src;
+            if (src) {
+                window.open(src, '_blank');
+            }
+        }
+
+        window.onload = function() {
+            document.querySelectorAll('.member img').forEach(img => {
+                const storedSrc = localStorage.getItem(img.id);
+                if (storedSrc) {
+                    img.src = storedSrc;
+                }
+            });
         }
     </script>
 </body>
