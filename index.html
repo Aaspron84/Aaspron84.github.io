@@ -5,108 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Árbol Genealógico</title>
     <style>
-        .tree {
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        #tree-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform-origin: center;
+            transition: transform 0.3s;
         }
-        .generation {
-            display: flex;
-            justify-content: center;
+        .family-member {
+            display: inline-block;
             margin: 20px;
-        }
-        .member {
             text-align: center;
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid black;
-            border-radius: 10px;
-            background-color: #f9f9f9;
         }
-        .member img {
+        .family-member img {
             width: 100px;
             height: 100px;
+            border-radius: 50%;
             object-fit: cover;
-            display: block;
-            margin: 0 auto 10px;
-            cursor: pointer;
+        }
+        .zoom-controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Árbol Genealógico</h1>
-    <div class="tree">
-        <div class="generation">
-            <div class="member">
-                <img id="antonio" src="" alt="Antonio Aspron Pilar" onclick="verImagen('antonio')">
-                <p>Antonio Aspron Pilar</p>
-                <input type="file" onchange="subirImagen(event, 'antonio')">
-            </div>
-            <div class="member">
-                <img id="emilia" src="" alt="Emilia Perez Campos" onclick="verImagen('emilia')">
-                <p>Emilia Perez Campos</p>
-                <input type="file" onchange="subirImagen(event, 'emilia')">
-            </div>
+    <div class="zoom-controls">
+        <button onclick="zoomIn()">+</button>
+        <button onclick="zoomOut()">-</button>
+    </div>
+    <div id="tree-container">
+        <div class="family-member">
+            <img id="img1" src="placeholder.jpg" onclick="viewImage(this)">
+            <input type="file" onchange="uploadImage(event, 'img1')">
+            <p>ANTONIO ASPRON PILAR</p>
         </div>
-        <div class="generation">
-            <div class="member">
-                <img id="antonio_hijo" src="" alt="Antonio Aspron Perez" onclick="verImagen('antonio_hijo')">
-                <p>Antonio Aspron Perez</p>
-                <input type="file" onchange="subirImagen(event, 'antonio_hijo')">
-            </div>
-            <div class="member">
-                <img id="david" src="" alt="David Aspron Perez" onclick="verImagen('david')">
-                <p>David Aspron Perez</p>
-                <input type="file" onchange="subirImagen(event, 'david')">
-            </div>
-            <div class="member">
-                <img id="manuel" src="" alt="Manuel Aspron Perez" onclick="verImagen('manuel')">
-                <p>Manuel Aspron Perez</p>
-                <input type="file" onchange="subirImagen(event, 'manuel')">
-            </div>
-            <div class="member">
-                <img id="soledad" src="" alt="Soledad Aspron Perez" onclick="verImagen('soledad')">
-                <p>Soledad Aspron Perez</p>
-                <input type="file" onchange="subirImagen(event, 'soledad')">
-            </div>
-            <div class="member">
-                <img id="leopoldo" src="" alt="Leopoldo Aspron Perez" onclick="verImagen('leopoldo')">
-                <p>Leopoldo Aspron Perez</p>
-                <input type="file" onchange="subirImagen(event, 'leopoldo')">
-            </div>
-            <div class="member">
-                <img id="pedro" src="" alt="Pedro Aspron Perez" onclick="verImagen('pedro')">
-                <p>Pedro Aspron Perez</p>
-                <input type="file" onchange="subirImagen(event, 'pedro')">
-            </div>
+        <div class="family-member">
+            <img id="img2" src="placeholder.jpg" onclick="viewImage(this)">
+            <input type="file" onchange="uploadImage(event, 'img2')">
+            <p>EMILIA PEREZ CAMPOS</p>
         </div>
+        <!-- Agregar más miembros aquí -->
     </div>
 
     <script>
-        function subirImagen(event, id) {
+        let scale = 1;
+        function zoomIn() {
+            scale += 0.1;
+            document.getElementById('tree-container').style.transform = `scale(${scale})`;
+        }
+        function zoomOut() {
+            scale -= 0.1;
+            document.getElementById('tree-container').style.transform = `scale(${scale})`;
+        }
+        function uploadImage(event, imgId) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    localStorage.setItem(id, e.target.result);
-                    document.getElementById(id).src = e.target.result;
-                };
+                    localStorage.setItem(imgId, e.target.result);
+                    document.getElementById(imgId).src = e.target.result;
+                }
                 reader.readAsDataURL(file);
             }
         }
-
-        function verImagen(id) {
-            const src = document.getElementById(id).src;
-            if (src) {
-                window.open(src, '_blank');
-            }
+        function viewImage(img) {
+            const newWindow = window.open();
+            newWindow.document.write('<img src="' + img.src + '" style="width: 100%; height: auto;">');
         }
-
         window.onload = function() {
-            document.querySelectorAll('.member img').forEach(img => {
-                const storedSrc = localStorage.getItem(img.id);
-                if (storedSrc) {
-                    img.src = storedSrc;
+            document.querySelectorAll('.family-member img').forEach(img => {
+                const storedImage = localStorage.getItem(img.id);
+                if (storedImage) {
+                    img.src = storedImage;
                 }
             });
         }
